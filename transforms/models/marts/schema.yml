@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: mart_fighter_stats
+    description: "Career statistics for every fighter. One row per fighter."
+    columns:
+      - name: fighter_id
+        tests: [unique, not_null]
+      - name: name
+        tests: [unique, not_null]
+      - name: total_fights
+        tests: [not_null]
+
+  - name: mart_matchup
+    description: "Fighter stats structured for side-by-side comparisons."
+    columns:
+      - name: fighter_id
+        tests: [unique, not_null]
+
+  - name: mart_event_summary
+    description: "Per-event fight card analytics."
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+
+  - name: stg_fights
+    description: "Cleaned fights with normalised method names."
+    columns:
+      - name: fight_id
+        tests: [unique, not_null]
+      - name: method_clean
+        tests:
+          - accepted_values:
+              values: ['KO/TKO','Submission','Decision - Unanimous','Decision - Split','Decision - Majority','No Contest','DQ','Draw']
+
+  - name: stg_events
+    description: "Cleaned events."
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+
+  - name: stg_rounds
+    description: "Cleaned round stats."
+    columns:
+      - name: id
+        tests: [unique, not_null]

@@ -1,0 +1,103 @@
+name: MMA Pipeline CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff==0.4.4
+
+      - name: Run ruff
+        run: ruff check ingestion/ warehouse/ api/ quality/
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
+        run: pytest tests/ -v
+
+  dbt:
+    name: dbt test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: mma
+          POSTGRES_PASSWORD: mma_pass
+          POSTGRES_DB: mma_warehouse
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install dbt-postgres==1.8.0
+
+      - name: Apply schema
+        run: |
+          psql -h localhost -p 5433 -U mma -d mma_warehouse -f warehouse/sql/schema.sql
+        env:
+          PGPASSWORD: mma_pass
+
+      - name: Load sample data
+        run: python -m warehouse.loader.run
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5433
+          DB_NAME: mma_warehouse
+          DB_USER: mma
+          DB_PASSWORD: mma_pass
+          RAW_DATA_PATH: ./tests/fixtures
+
+      - name: Run dbt
+        run: |
+          cd transforms
+          dbt deps
+          dbt run --profiles-dir .
+          dbt test --profiles-dir .
+        env:
+          DBT_HOST: localhost
+          DBT_PORT: 5433
+          DBT_NAME: mma_warehouse
+          DBT_USER: mma
+          DBT_PASSWORD: mma_pass

@@ -1,0 +1,39 @@
+{
+  "event_id": "test_event_001",
+  "event_name": "UFC Test Event",
+  "date": "January 01, 2025",
+  "location": "Las Vegas, Nevada, USA",
+  "fights": [
+    {
+      "fight_id": "test_fight_001",
+      "event_id": "test_event_001",
+      "fighters": ["Fighter A", "Fighter B"],
+      "winner": "Fighter A",
+      "result": "win",
+      "method": "KO/TKO",
+      "method_detail": "Punches",
+      "round_stopped": 2,
+      "time": "3:45",
+      "weight_class": "Lightweight",
+      "is_title_fight": false,
+      "is_main_event": true,
+      "url": "http://ufcstats.com/fight-details/test_fight_001"
+    },
+    {
+      "fight_id": "test_fight_002",
+      "event_id": "test_event_001",
+      "fighters": ["Fighter C", "Fighter D"],
+      "winner": "Fighter D",
+      "result": "win",
+      "method": "U-DEC",
+      "method_detail": "",
+      "round_stopped": 3,
+      "time": "5:00",
+      "weight_class": "Welterweight",
+      "is_title_fight": false,
+      "is_main_event": false,
+      "url": "http://ufcstats.com/fight-details/test_fight_002"
+    }
+  ],
+  "fight_count": 2
+}

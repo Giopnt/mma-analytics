@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: warehouse
+    schema: public
+    description: "Raw MMA data loaded by the Python warehouse loader"
+
+    tables:
+      - name: dim_event
+        columns:
+          - name: event_id
+            tests: [unique, not_null]
+          - name: event_name
+            tests: [not_null]
+
+      - name: dim_fighter
+        columns:
+          - name: fighter_id
+            tests: [unique, not_null]
+          - name: name
+            tests: [unique, not_null]
+
+      - name: dim_method
+        columns:
+          - name: method_id
+            tests: [unique, not_null]
+
+      - name: fact_fight
+        columns:
+          - name: fight_id
+            tests: [unique, not_null]
+          - name: event_id
+            tests: [not_null]
+          - name: fighter_a_id
+            tests: [not_null]
+          - name: fighter_b_id
+            tests: [not_null]
+
+      - name: fact_fight_round
+        columns:
+          - name: id
+            tests: [unique, not_null]
+          - name: fight_id
+            tests: [not_null]

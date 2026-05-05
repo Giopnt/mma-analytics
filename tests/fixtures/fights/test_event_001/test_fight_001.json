@@ -1,0 +1,60 @@
+{
+  "fight_id": "test_fight_001",
+  "fighters": ["Fighter A", "Fighter B"],
+  "rounds": [
+    {
+      "round": 1,
+      "fighters": [
+        {
+          "fighter": "Fighter A",
+          "knockdowns": 0,
+          "sig_strikes": {"landed": 25, "attempted": 40},
+          "total_strikes": {"landed": 30, "attempted": 48},
+          "takedowns": {"landed": 1, "attempted": 2},
+          "submission_attempts": 0,
+          "reversals": 0,
+          "control_time_sec": 45,
+          "sig_strike_detail": {
+            "by_target": {
+              "head": {"landed": 15, "attempted": 25},
+              "body": {"landed": 7, "attempted": 10},
+              "leg": {"landed": 3, "attempted": 5}
+            },
+            "by_position": {
+              "distance": {"landed": 20, "attempted": 35},
+              "clinch": {"landed": 5, "attempted": 5},
+              "ground": {"landed": 0, "attempted": 0}
+            }
+          }
+        },
+        {
+          "fighter": "Fighter B",
+          "knockdowns": 0,
+          "sig_strikes": {"landed": 18, "attempted": 35},
+          "total_strikes": {"landed": 22, "attempted": 40},
+          "takedowns": {"landed": 0, "attempted": 1},
+          "submission_attempts": 0,
+          "reversals": 0,
+          "control_time_sec": 0,
+          "sig_strike_detail": {
+            "by_target": {
+              "head": {"landed": 10, "attempted": 20},
+              "body": {"landed": 5, "attempted": 10},
+              "leg": {"landed": 3, "attempted": 5}
+            },
+            "by_position": {
+              "distance": {"landed": 18, "attempted": 35},
+              "clinch": {"landed": 0, "attempted": 0},
+              "ground": {"landed": 0, "attempted": 0}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "round_count": 1,
+  "event_id": "test_event_001",
+  "winner": "Fighter A",
+  "method": "KO/TKO",
+  "weight_class": "Lightweight"
+}
